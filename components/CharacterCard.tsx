@@ -7,7 +7,6 @@ import * as React from "react";
 import { Character } from "../interfaces/ICharacter";
 import StatusCircle from "./StatusCircle";
 export default function CharacterCard(props: { character: Character }) {
-  console.log("character", props.character);
   const character = props.character;
   return (
     <Card sx={{ maxWidth: 300 }}>
@@ -18,16 +17,23 @@ export default function CharacterCard(props: { character: Character }) {
           alt={character.name}
         />
         <CardContent>
-          <Typography align="center" gutterBottom variant="h6" component="div">
+          <Typography
+            align="center"
+            fontWeight="bold"
+            gutterBottom
+            variant="h6"
+            component="div"
+          >
             {character.name}
           </Typography>
           <Typography variant="overline" gutterBottom>
             <StatusCircle status={character.status} />
             {character.status} - {character.species} ({character.gender})
           </Typography>
-          <Typography variant="body2" color="text.secondary">
-            Lizards are a widespread group of squamate reptiles, with over 6,000
-            species, ranging across all continents except Antarctica
+
+          <Typography variant="subtitle2" color="text.secondary">
+            <span className="subtitle-span">Last seen: </span>
+            {character.location.name}
           </Typography>
         </CardContent>
       </CardActionArea>

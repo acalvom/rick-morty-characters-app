@@ -16,6 +16,15 @@ a {
   box-sizing: border-box;
 }
 
+.main-container {
+  margin: 2em auto;
+}
+
 .card-list {
   justify-content: center;
+}
+
+.subtitle-span {
+  font-size: small;
+  font-weight: bolder;
 }

@@ -1,4 +1,4 @@
-import { Box, Container, Grid, Typography } from "@mui/material";
+import { Box, Container, Grid } from "@mui/material";
 import type { NextPage } from "next";
 import Head from "next/head";
 import { useQuery } from "react-query";
@@ -19,14 +19,11 @@ const Home: NextPage = () => {
 
   console.log(data);
   return (
-    <Container>
+    <Container className="main-container">
       <Head>
         <title>Rick and Morty</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Typography variant="h2" align="center" gutterBottom component="div">
-        Characters
-      </Typography>
 
       <Box alignContent="center">
         <Grid className="card-list" container spacing={1}>
