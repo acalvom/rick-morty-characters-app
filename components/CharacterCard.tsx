@@ -4,20 +4,25 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import * as React from "react";
+import { Character } from "../interfaces/ICharacter";
 
-export default function CharacterCard() {
+export default function CharacterCard(props: { character: Character }) {
+  console.log("character", props.character);
+  const character = props.character;
   return (
-    <Card sx={{ maxWidth: 345 }}>
+    <Card sx={{ maxWidth: 300 }}>
       <CardActionArea>
         <CardMedia
           component="img"
-          height="140"
-          image="/static/images/cards/contemplative-reptile.jpg"
-          alt="green iguana"
+          image={character.image}
+          alt={character.name}
         />
         <CardContent>
-          <Typography gutterBottom variant="h5" component="div">
-            Lizard
+          <Typography align="center" gutterBottom variant="h6" component="div">
+            {character.name}
+          </Typography>
+          <Typography variant="overline" display="block" gutterBottom>
+            {character.status} - {character.species} ({character.gender})
           </Typography>
           <Typography variant="body2" color="text.secondary">
             Lizards are a widespread group of squamate reptiles, with over 6,000

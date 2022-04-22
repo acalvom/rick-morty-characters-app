@@ -3,19 +3,21 @@ import type { NextPage } from "next";
 import Head from "next/head";
 import { useQuery } from "react-query";
 import CharacterCard from "../components/CharacterCard";
+import { Characters } from "../interfaces/ICharacter";
 
 const Home: NextPage = () => {
-  const getCharacters: any = async () => {
+  const getCharacters = async () => {
     const res = await fetch("https://rickandmortyapi.com/api/character");
-    const data = await res.json();
-    console.log(data);
+    const data: Characters = await res.json();
     return data;
   };
 
-  const { data, status, error } = useQuery(["characters"], getCharacters);
+  const { data, isLoading, isFetching, isError } = useQuery(
+    ["characters"],
+    getCharacters
+  );
 
-  console.log("query", data, status, error);
-
+  console.log(data);
   return (
     <Container>
       <Head>
@@ -28,18 +30,12 @@ const Home: NextPage = () => {
 
       <Box alignContent="center">
         <Grid className="card-list" container spacing={1}>
-          <Grid item>
-            <CharacterCard />
-          </Grid>
-          <Grid item>
-            <CharacterCard />
-          </Grid>
-          <Grid item>
-            <CharacterCard />
-          </Grid>
-          <Grid item>
-            <CharacterCard />
-          </Grid>
+          {data &&
+            data.results.map((character) => (
+              <Grid item>
+                <CharacterCard character={character}></CharacterCard>
+              </Grid>
+            ))}
         </Grid>
       </Box>
     </Container>
