@@ -5,21 +5,13 @@ import { useState } from "react";
 import { dehydrate, QueryClient, useQuery } from "react-query";
 import CharacterCard from "../components/CharacterCard";
 import PageButton from "../components/PageButton";
-import { Characters } from "../interfaces/ICharacter";
-
-const getCharacters = async (page: string) => {
-  const res = await fetch(
-    `https://rickandmortyapi.com/api/character/?page=${page}`
-  );
-  const characters: Characters = await res.json();
-  return characters;
-};
+import CharacterService from "../services/CharacterService";
 
 const Home: NextPage = () => {
   const [page, setPage] = useState("1");
   const { data, isPreviousData } = useQuery(
     ["characters", page],
-    () => getCharacters(page),
+    () => CharacterService.getCharacters(page),
     { keepPreviousData: true }
   );
 
@@ -34,7 +26,7 @@ const Home: NextPage = () => {
     <Container className="main-container">
       <Head>
         <title>Rick and Morty</title>
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/rick-morty.ico" />
       </Head>
 
       <Box className="page-btn-box">
@@ -71,7 +63,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
     typeof context.params?.page === "string" ? context.params?.page : "1";
   const queryClient = new QueryClient();
   await queryClient.prefetchQuery(["characters", page], () =>
-    getCharacters(page)
+    CharacterService.getCharacters(page)
   );
 
   return {
