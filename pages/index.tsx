@@ -5,11 +5,13 @@ import { useState } from "react";
 import { dehydrate, QueryClient, useQuery } from "react-query";
 import CharacterCard from "../components/CharacterCard";
 import PageButton from "../components/PageButton";
+import SearchInput from "../components/SearchInput";
 import { Characters } from "../interfaces/ICharacter";
 import CharacterService from "../services/CharacterService";
 
 const Home: NextPage = () => {
   const [page, setPage] = useState("1");
+  // const [characters, setCharacters] = useState([]);
   const { data, isPreviousData } = useQuery<Characters>(
     ["characters", page],
     () => CharacterService.getCharacters(page),
@@ -29,6 +31,8 @@ const Home: NextPage = () => {
         <title>Rick and Morty</title>
         <link rel="icon" href="/rick-morty.ico" />
       </Head>
+
+      <SearchInput characters={data?.results} />
 
       <Box className="page-btn-box">
         <PageButton
