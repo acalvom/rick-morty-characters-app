@@ -1,9 +1,10 @@
-import { Box, Button, Container, Grid } from "@mui/material";
+import { Box, Container, Grid } from "@mui/material";
 import type { GetStaticProps, NextPage } from "next";
 import Head from "next/head";
 import { useState } from "react";
 import { dehydrate, QueryClient, useQuery } from "react-query";
 import CharacterCard from "../components/CharacterCard";
+import PageButton from "../components/PageButton";
 import { Characters } from "../interfaces/ICharacter";
 
 const getCharacters = async (page: string) => {
@@ -22,6 +23,13 @@ const Home: NextPage = () => {
     { keepPreviousData: true }
   );
 
+  const handlePrevious = () => {
+    setPage(`${parseInt(page) - 1}`);
+  };
+  const handleNext = () => {
+    setPage(`${parseInt(page) + 1}`);
+  };
+
   return (
     <Container className="main-container">
       <Head>
@@ -30,22 +38,16 @@ const Home: NextPage = () => {
       </Head>
 
       <Box className="page-btn-box">
-        <Button
-          className="page-btn"
-          variant="contained"
-          disabled={isPreviousData}
-          onClick={() => parseInt(page) > 0 && setPage(`${parseInt(page) - 1}`)}
-        >
-          Previous
-        </Button>
-        <Button
-          className="page-btn"
-          variant="contained"
-          disabled={isPreviousData}
-          onClick={() => setPage(`${parseInt(page) + 1}`)}
-        >
-          Next
-        </Button>
+        <PageButton
+          isPreviousData={isPreviousData}
+          handleClick={handlePrevious}
+          name="Previous"
+        />
+        <PageButton
+          isPreviousData={isPreviousData}
+          handleClick={handleNext}
+          name="Next"
+        />
       </Box>
 
       <Box alignContent="center">
