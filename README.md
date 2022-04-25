@@ -15,7 +15,7 @@
 
 ```sh
 > cd <folder path>
-> git clone https://github.com/acalvom/nextjs-hello-world
+> git clone https://github.com/acalvom/rick-morty-characters-app
 > cd nextjs-reactquery-rick-morty
 > nextjs-reactquery-rick-morty  > npm install
 ```
