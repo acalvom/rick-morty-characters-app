@@ -1,8 +1,8 @@
 import { Box, Button, Container, Grid } from "@mui/material";
-import type { NextPage } from "next";
+import type { GetStaticProps, NextPage } from "next";
 import Head from "next/head";
 import { useState } from "react";
-import { useQuery } from "react-query";
+import { dehydrate, QueryClient, useQuery } from "react-query";
 import CharacterCard from "../components/CharacterCard";
 import { Characters } from "../interfaces/ICharacter";
 
@@ -21,8 +21,6 @@ const Home: NextPage = () => {
     () => getCharacters(page),
     { keepPreviousData: true }
   );
-
-  // console.log(data, page);
 
   return (
     <Container className="main-container">
@@ -66,14 +64,17 @@ const Home: NextPage = () => {
 
 export default Home;
 
-// export const getStaticProps: GetStaticProps = async (context) => {
-//   const page = context.params?.page as string;
-//   const queryClient = new QueryClient();
-//   await queryClient.prefetchQuery(["characters", page], getCharacters(page));
+export const getStaticProps: GetStaticProps = async (context) => {
+  const page =
+    typeof context.params?.page === "string" ? context.params?.page : "1";
+  const queryClient = new QueryClient();
+  await queryClient.prefetchQuery(["characters", page], () =>
+    getCharacters(page)
+  );
 
-//   return {
-//     props: {
-//       dehydratedState: dehydrate(queryClient),
-//     },
-//   };
-// };
+  return {
+    props: {
+      dehydratedState: dehydrate(queryClient),
+    },
+  };
+};
