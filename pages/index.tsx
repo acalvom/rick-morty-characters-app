@@ -1,4 +1,4 @@
-import { Box, Container, Grid } from "@mui/material";
+import { Box, Button, Container, Grid } from "@mui/material";
 import type { NextPage } from "next";
 import Head from "next/head";
 import { useState } from "react";
@@ -15,14 +15,14 @@ const getCharacters = async (page: string) => {
 };
 
 const Home: NextPage = () => {
-  const [page, setPage] = useState("3");
+  const [page, setPage] = useState("1");
   const { data, isPreviousData } = useQuery(
     ["characters", page],
     () => getCharacters(page),
     { keepPreviousData: true }
   );
 
-  console.log(data);
+  // console.log(data, page);
 
   return (
     <Container className="main-container">
@@ -30,6 +30,25 @@ const Home: NextPage = () => {
         <title>Rick and Morty</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
+
+      <Box className="page-btn-box">
+        <Button
+          className="page-btn"
+          variant="contained"
+          disabled={isPreviousData}
+          onClick={() => parseInt(page) > 0 && setPage(`${parseInt(page) - 1}`)}
+        >
+          Previous
+        </Button>
+        <Button
+          className="page-btn"
+          variant="contained"
+          disabled={isPreviousData}
+          onClick={() => setPage(`${parseInt(page) + 1}`)}
+        >
+          Next
+        </Button>
+      </Box>
 
       <Box alignContent="center">
         <Grid className="card-list" container spacing={1}>
