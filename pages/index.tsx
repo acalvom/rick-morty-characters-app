@@ -1,7 +1,7 @@
 import { Box, Container, Grid } from "@mui/material";
 import type { GetStaticProps, NextPage } from "next";
 import Head from "next/head";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { dehydrate, QueryClient, useQuery } from "react-query";
 import CharacterCard from "../components/CharacterCard";
 import PageButton from "../components/PageButton";
@@ -11,7 +11,7 @@ import CharacterService from "../services/CharacterService";
 
 const Home: NextPage = () => {
   const [page, setPage] = useState("1");
-  // const [characters, setCharacters] = useState([]);
+  const [characters, setCharacters] = useState({} as Characters); // Empty object with Character object interface
   const { data, isPreviousData } = useQuery<Characters>(
     ["characters", page],
     () => CharacterService.getCharacters(page),
@@ -19,11 +19,18 @@ const Home: NextPage = () => {
   );
 
   const handlePrevious = () => {
-    setPage(`${parseInt(page) - 1}`);
+    parseInt(page) > 0 && setPage(`${parseInt(page) - 1}`);
   };
   const handleNext = () => {
-    setPage(`${parseInt(page) + 1}`);
+    if (characters && parseInt(page) < characters.info.pages)
+      setPage(`${parseInt(page) + 1}`);
+    else setPage(`${characters.info.pages}`);
   };
+
+  useEffect(() => {
+    // useEffect to set data and avoid 'undefined' from Characters
+    data && setCharacters(data);
+  }, [data]);
 
   return (
     <Container className="main-container">
@@ -32,7 +39,7 @@ const Home: NextPage = () => {
         <link rel="icon" href="/rick-morty.ico" />
       </Head>
 
-      <SearchInput characters={data?.results} />
+      <SearchInput characters={characters.results} />
 
       <Box className="page-btn-box">
         <PageButton
@@ -49,8 +56,8 @@ const Home: NextPage = () => {
 
       <Box alignContent="center">
         <Grid className="card-list" container spacing={1}>
-          {data &&
-            data.results.map((character) => (
+          {characters.results &&
+            characters.results.map((character) => (
               <Grid item key={character.id}>
                 <CharacterCard character={character}></CharacterCard>
               </Grid>

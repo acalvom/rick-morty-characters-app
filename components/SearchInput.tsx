@@ -4,11 +4,8 @@ import TextField from "@mui/material/TextField";
 import * as React from "react";
 import { Character } from "../interfaces/ICharacter";
 
-export default function SearchInput(props: {
-  characters: Character[] | undefined;
-}) {
-  const characters =
-    typeof props.characters === "undefined" ? [] : props.characters;
+export default function SearchInput(props: { characters: Character[] }) {
+  const characters = props.characters ?? []; // If characters in undefined, set to empty array
   return (
     <Stack spacing={2} sx={{ maxWidth: 500, margin: "auto" }}>
       <Autocomplete
