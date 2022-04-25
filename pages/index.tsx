@@ -5,11 +5,12 @@ import { useState } from "react";
 import { dehydrate, QueryClient, useQuery } from "react-query";
 import CharacterCard from "../components/CharacterCard";
 import PageButton from "../components/PageButton";
+import { Characters } from "../interfaces/ICharacter";
 import CharacterService from "../services/CharacterService";
 
 const Home: NextPage = () => {
   const [page, setPage] = useState("1");
-  const { data, isPreviousData } = useQuery(
+  const { data, isPreviousData } = useQuery<Characters>(
     ["characters", page],
     () => CharacterService.getCharacters(page),
     { keepPreviousData: true }
