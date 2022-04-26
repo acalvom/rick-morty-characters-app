@@ -3,11 +3,13 @@ import { Button } from "@mui/material";
 import Autocomplete from "@mui/material/Autocomplete";
 import Stack from "@mui/material/Stack";
 import TextField from "@mui/material/TextField";
-import * as React from "react";
+import { useState } from "react";
 import { Character } from "../interfaces/ICharacter";
 
 export default function SearchInput(props: { characters: Character[] }) {
   const characters = props.characters ?? []; // If characters in undefined, set to empty array
+  const [input, setInput] = useState("");
+
   return (
     <Stack spacing={2} direction="row" justifyContent="center">
       <Autocomplete
@@ -18,6 +20,7 @@ export default function SearchInput(props: { characters: Character[] }) {
         clearOnBlur
         disableClearable
         handleHomeEndKeys
+        onChange={(_e, value) => setInput(value)}
         options={characters.map((item) => item.name)}
         renderInput={(params) => (
           <TextField
@@ -30,6 +33,7 @@ export default function SearchInput(props: { characters: Character[] }) {
           />
         )}
       />
+
       <Button
         sx={{ backgroundColor: "#ffc300" }}
         variant="contained"
