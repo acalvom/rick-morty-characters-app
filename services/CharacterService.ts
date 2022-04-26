@@ -7,9 +7,17 @@ const getCharacters = async (page: string) => {
     return await res.json();
   };
 
+  const getCharacterById = async (id: string) => {
+    const res = await fetch(
+      `https://rickandmortyapi.com/api/character/${id}`
+    );
+    return await res.json();
+  };
+
+
 
   const CharacterService = {
-    getCharacters
+    getCharacters, getCharacterById
   }
   export default CharacterService;
   
