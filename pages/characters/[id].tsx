@@ -14,25 +14,30 @@ const CharacterInfo: NextPage = () => {
     { keepPreviousData: true }
   );
 
-  console.log("data", data);
+  // console.log("data", data);
 
   return (
     <Container maxWidth="sm">
       <Head>
         <title>Character Info</title>
       </Head>
+      <h1>{data?.name}</h1>
     </Container>
   );
 };
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  return { paths: [], fallback: "blocking" };
+  // const characters = await CharacterService.getCharacters();
+  // console.log(characters);
+  return {
+    paths: [{ params: { id: "1" } }, { params: { id: "2" } }],
+    fallback: true,
+  };
 };
 
 export const getStaticProps: GetStaticProps = async (context) => {
-  const id = typeof context.params?.id === "string" ? context.params?.id : "0";
+  const id = typeof context.params?.id === "string" ? context.params?.id : "1";
   const queryClient = new QueryClient();
-  console.log(id);
   await queryClient.prefetchQuery(["character", id], () =>
     CharacterService.getCharacterById(id)
   );
