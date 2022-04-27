@@ -1,5 +1,5 @@
 import { Box, Button, Container } from "@mui/material";
-import type { GetStaticPaths, GetStaticProps, NextPage } from "next";
+import type { GetServerSideProps, NextPage } from "next";
 import Head from "next/head";
 import Link from "next/link";
 import { dehydrate, QueryClient, useQuery } from "react-query";
@@ -45,15 +45,15 @@ const CharacterInfo: NextPage<Props> = ({ id }) => {
   );
 };
 
-export const getStaticPaths: GetStaticPaths = async () => {
-  return {
-    paths: [],
-    fallback: "blocking",
-  };
-};
+// export const getStaticPaths: GetStaticPaths = async () => {
+//   return {
+//     paths: [],
+//     fallback: "blocking",
+//   };
+// };
 
-export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const id = typeof params?.id === "string" ? params?.id : "1";
+export const getServerSideProps: GetServerSideProps = async ({ query }) => {
+  const id = typeof query?.id === "string" ? query?.id : "1";
   const queryClient = new QueryClient();
   await queryClient.prefetchQuery(["character", id], () =>
     CharacterService.getCharacterById(id)

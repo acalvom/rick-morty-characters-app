@@ -1,5 +1,5 @@
 import { Box, Container, Grid } from "@mui/material";
-import type { GetStaticProps, NextPage } from "next";
+import type { GetServerSideProps, NextPage } from "next";
 import Head from "next/head";
 import { useEffect, useState } from "react";
 import { dehydrate, QueryClient, useQuery } from "react-query";
@@ -70,10 +70,10 @@ const Characters: NextPage = () => {
 
 export default Characters;
 
-export const getStaticProps: GetStaticProps = async (context) => {
+export const getServerSideProps: GetServerSideProps = async (context) => {
   //revalidate
   const page =
-    typeof context.params?.page === "string" ? context.params?.page : "1";
+    typeof context.query?.page === "string" ? context.query?.page : "1";
   const queryClient = new QueryClient();
   await queryClient.prefetchQuery(["characters", page], () =>
     CharacterService.getCharactersByPage(page)
