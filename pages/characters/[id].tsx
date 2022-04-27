@@ -1,20 +1,20 @@
 import { Container } from "@mui/material";
 import type { GetStaticPaths, GetStaticProps, NextPage } from "next";
 import Head from "next/head";
-import { useRouter } from "next/router";
 import { dehydrate, QueryClient, useQuery } from "react-query";
 import { Character } from "../../interfaces/ICharacter";
 import CharacterService from "../../services/CharacterService";
 
-const CharacterInfo: NextPage = () => {
-  const router = useRouter();
-  const { data } = useQuery<Character>(
-    ["character", router.query.id],
-    () => CharacterService.getCharacterById(String(router.query.id)),
-    { keepPreviousData: true }
-  );
+interface Props {
+  id: string;
+}
 
-  // console.log("data", data);
+const CharacterInfo: NextPage<Props> = ({ id }) => {
+  const { data } = useQuery<Character>(
+    ["character", id],
+    () => CharacterService.getCharacterById(id),
+    { keepPreviousData: true, refetchOnWindowFocus: false }
+  );
 
   return (
     <Container maxWidth="sm">
@@ -27,22 +27,21 @@ const CharacterInfo: NextPage = () => {
 };
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  // const characters = await CharacterService.getCharacters();
-  // console.log(characters);
   return {
-    paths: [{ params: { id: "1" } }, { params: { id: "2" } }],
-    fallback: true,
+    paths: [],
+    fallback: "blocking",
   };
 };
 
-export const getStaticProps: GetStaticProps = async (context) => {
-  const id = typeof context.params?.id === "string" ? context.params?.id : "1";
+export const getStaticProps: GetStaticProps = async ({ params }) => {
+  const id = typeof params?.id === "string" ? params?.id : "1";
   const queryClient = new QueryClient();
   await queryClient.prefetchQuery(["character", id], () =>
     CharacterService.getCharacterById(id)
   );
   return {
     props: {
+      id,
       dehydratedState: dehydrate(queryClient),
     },
   };
