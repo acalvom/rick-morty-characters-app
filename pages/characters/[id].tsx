@@ -1,7 +1,9 @@
-import { Container } from "@mui/material";
+import { Button, Container } from "@mui/material";
 import type { GetStaticPaths, GetStaticProps, NextPage } from "next";
 import Head from "next/head";
+import Link from "next/link";
 import { dehydrate, QueryClient, useQuery } from "react-query";
+import CharacterCard from "../../components/CharacterCard";
 import { Character } from "../../interfaces/ICharacter";
 import CharacterService from "../../services/CharacterService";
 
@@ -21,7 +23,12 @@ const CharacterInfo: NextPage<Props> = ({ id }) => {
       <Head>
         <title>Character Info</title>
       </Head>
-      <h1>{data?.name}</h1>
+      {data && <CharacterCard character={data} />}
+      <Link href="/characters">
+        <Button className="back-to-btn" variant="contained">
+          Back Home
+        </Button>
+      </Link>
     </Container>
   );
 };
