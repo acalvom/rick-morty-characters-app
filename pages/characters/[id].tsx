@@ -1,4 +1,4 @@
-import { Button, Container } from "@mui/material";
+import { Box, Button, Container } from "@mui/material";
 import type { GetStaticPaths, GetStaticProps, NextPage } from "next";
 import Head from "next/head";
 import Link from "next/link";
@@ -23,12 +23,24 @@ const CharacterInfo: NextPage<Props> = ({ id }) => {
       <Head>
         <title>Character Info</title>
       </Head>
-      {data && <CharacterCard character={data} />}
-      <Link href="/characters">
-        <Button className="back-to-btn" variant="contained">
-          Back Home
-        </Button>
-      </Link>
+
+      <Box
+        alignItems="center"
+        display="flex"
+        flexDirection="column"
+        margin="2em"
+      >
+        {data && <CharacterCard character={data} />}
+        <Link href="/characters">
+          <Button
+            sx={{ margin: "1em" }}
+            className="back-to-btn"
+            variant="contained"
+          >
+            Back Home
+          </Button>
+        </Link>
+      </Box>
     </Container>
   );
 };
