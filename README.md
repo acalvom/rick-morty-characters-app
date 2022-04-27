@@ -22,13 +22,13 @@
 
 ## ✅ Go Live
 
-#### ▶️ Run app: `> npm run dev` or `yarn dev`
+#### ▶️ Run app in dev: `> npm run dev` or `yarn dev`
 
 #### 🖥️ See app: Open the browser in [http://localhost:3000](http://localhost:3000)
 
 #### 🛠️ Build app: `> npm run build` or `yarn build`
 
-#### 💾 Run static app: `> npx serve out`
+#### 💾 Run builded app: `> npm run start` or `yarn start`
 
 ## Deploy on Vercel
 
