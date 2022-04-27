@@ -14,7 +14,7 @@ const Characters: NextPage = () => {
   const [characters, setCharacters] = useState({} as Characters); // Empty object with Character object interface
   const { data, isPreviousData } = useQuery<Characters>(
     ["characters", page],
-    () => CharacterService.getCharacters(page),
+    () => CharacterService.getCharactersByPage(page),
     { keepPreviousData: true }
   );
 
@@ -71,11 +71,12 @@ const Characters: NextPage = () => {
 export default Characters;
 
 export const getStaticProps: GetStaticProps = async (context) => {
+  //revalidate
   const page =
     typeof context.params?.page === "string" ? context.params?.page : "1";
   const queryClient = new QueryClient();
   await queryClient.prefetchQuery(["characters", page], () =>
-    CharacterService.getCharacters(page)
+    CharacterService.getCharactersByPage(page)
   );
 
   return {

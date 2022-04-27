@@ -1,6 +1,11 @@
+const getCharacters = async () => {
+  const res = await fetch(
+    `https://rickandmortyapi.com/api/character/`
+  );
+  return await res.json();
+};
 
-
-const getCharacters = async (page: string) => {
+const getCharactersByPage = async (page: string) => {
     const res = await fetch(
       `https://rickandmortyapi.com/api/character/?page=${page}`
     );
@@ -17,7 +22,7 @@ const getCharacters = async (page: string) => {
 
 
   const CharacterService = {
-    getCharacters, getCharacterById
+    getCharacters: getCharacters, getCharactersByPage, getCharacterById
   }
   export default CharacterService;
   
